@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400&family=Outfit:wght@300;400&family=Zalando+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body>
+<header id="nav"></header>
+<main>
+  <div id="filter" role="group" aria-label="Genre"></div>
+  <ul class="grid" id="grid"></ul>
+</main>
+<script src="assets/js/main.js"></script>
+<script>
+(async()=>{
+  await init();
+  const ws=await loadWorks(),g=$('#grid');
+  if(!ws.length){g.outerHTML='<p class="empty">No works.</p>';return}
+  const genres=[...new Set(ws.flatMap(w=>arr(w.genre)))];
+  const f=$('#filter');
+  f.innerHTML=['All',...genres].map((n,i)=>'<button type="button" aria-pressed="'+(i===0)+'">'+esc(n)+'</button>').join('');
+  const draw=k=>{
+    g.innerHTML=ws.filter(w=>k==='All'||arr(w.genre).includes(k)).map(w=>
+      '<li><a href="work.html?p='+encodeURIComponent(w._file)+'"><div class="th">'+pic(w.thumbnail,w.title)+'</div>'+
+      '<h2>'+esc(w.title)+(w._demo?'<span class="demo">DEMO</span>':'')+'</h2>'+
+      '<div class="meta"><span class="num">'+esc(w.year)+'</span> '+esc(arr(w.genre).join(', '))+'</div></a></li>').join('');
+  };
+  f.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+    f.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));draw(b.textContent)};
+  draw('All');
+})();
+</script>
+</body>
+</html>

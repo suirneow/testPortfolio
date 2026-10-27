@@ -1,0 +1,30 @@
+{
+  "_help": "このファイルをコピーして、2026/07/ のような年月フォルダに入れ、ファイル名を変えて編集します。不要な項目は消すか空のままでOK。_ で始まる項目は表示されません。",
+  "_fields": {
+    "published": "false にすると非表示",
+    "genre": "絞り込みに使う。例: Installation / Mapping / 3DCG / Motion / Graphic",
+    "caption_en": "英語の一文。キャプションの先頭に出る",
+    "screen": "例: W2100 x H4990 mm + gymnasium wall (rear)",
+    "method / software": "キャプションに Screen / 手法 / Software: ... の順で組み立てられる",
+    "thumbnail / cover": "Dropboxの共有リンクをそのまま貼る(または ./img/xxx.jpg)。coverは詳細ページの背景。省略時はthumbnail",
+    "layout": "fullbleed(全面写真)か spread(左に実物とコンセプト、右に制作過程)",
+    "videos": "YouTube / Vimeo のURL、または mp4 のパス",
+    "process": "(Design Process) に並ぶ画像。noteは任意"
+  },
+  "published": true,
+  "title": "",
+  "year": 2026,
+  "genre": [],
+  "role": "",
+  "caption_en": "",
+  "description_ja": "",
+  "screen": "",
+  "method": [],
+  "software": [],
+  "thumbnail": "",
+  "cover": "",
+  "layout": "fullbleed",
+  "images": [{ "src": "", "alt": "", "note": "" }],
+  "videos": [],
+  "process": [{ "src": "", "alt": "", "note": "" }]
+}

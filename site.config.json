@@ -1,0 +1,5 @@
+{
+  "siteName": "SHUNTO TAKAYA",
+  "nav": [["Work","index.html"],["Writing","writing.html"],["Log","log.html"],["Info","info.html"],["Contact","contact.html"],["Sandbox","sandbox.html"]],
+  "sources": ["content", "demo"]
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400&family=Outfit:wght@300;400&family=Zalando+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body>
+<header id="nav"></header>
+<div id="view"></div>
+<script src="assets/js/main.js"></script>
+<script>
+(async()=>{
+  await init();
+  const p=new URLSearchParams(location.search).get('p'),v=$('#view');
+  const ws=await loadWorks(),i=ws.findIndex(w=>w._file===p),w=ws[i];
+  if(!w){v.innerHTML='<main><p class="empty">Not found. <a href="index.html">Work</a></p></main>';return}
+  document.title=w.title+' / '+CFG.siteName;
+  const cap='<div class="cap en">'+(w.caption_en?esc(w.caption_en)+'<br>':'')+esc(caption(w))+'</div>';
+  const desc=w.description_ja?'<div class="desc">'+esc(w.description_ja)+'</div>':'';
+  const cover=imgUrl(w.cover||w.thumbnail);
+  const imgs=arr(w.images).map(x=>'<figure>'+pic(x.src,x.alt||w.title)+(x.note?'<figcaption class="meta">'+esc(x.note)+'</figcaption>':'')+'</figure>').join('');
+  const vids=arr(w.videos).map(video).join('');
+  const proc=arr(w.process).map(x=>'<figure>'+pic(x.src,x.alt||'')+(x.note?'<figcaption>'+esc(x.note)+'</figcaption>':'')+'</figure>').join('');
+  const procBlock=proc?'<h2 class="proc">(Design Process)</h2>'+proc:'';
+  let html;
+  if(w.layout==='spread'){
+    html='<section class="spread"><div class="l">'+(cover?'<div>'+pic(cover,w.title)+'</div>':'')+
+      '<h1>'+esc(w.title)+(w._demo?'<span class="demo">DEMO</span>':'')+'</h1>'+desc+cap+'</div>'+
+      '<div class="r"><div>'+procBlock+'</div>'+vids+imgs+'</div></section>';
+  }else{
+    document.body.classList.add('dark');
+    html='<section class="hero shade" id="hero" role="img" aria-label="'+esc(w.title)+'"><div>'+
+      '<h1>'+esc(w.title)+(w._demo?'<span class="demo" style="color:#fff;border-color:#fff">DEMO</span>':'')+'</h1>'+cap+'</div>'+desc+'</section>'+
+      ((imgs||vids||proc)?'<section class="body">'+vids+imgs+(proc?'<div>'+procBlock+'</div>':'')+'</section>':'');
+  }
+  const a=ws[i-1],b=ws[i+1];
+  const link=(x,t)=>x?'<a href="work.html?p='+encodeURIComponent(x._file)+'">'+t+'</a>':'<span class="off">'+t+'</span>';
+  v.innerHTML=html+'<footer class="pn">'+link(a,'Newer')+'<a href="index.html">List</a>'+link(b,'Older')+'</footer>';
+  const h=$('#hero');
+  if(h){
+    if(cover)h.style.setProperty('--img','url("'+cover+'")');
+    else{h.classList.remove('shade');h.classList.add('noimg');document.body.classList.remove('dark')}
+  }
+})();
+</script>
+</body>
+</html>
